@@ -8,6 +8,8 @@ target 'stepapp' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'RCTAppleHealthKit', :path => '../node_modules/rn-apple-healthkit'
+
   target 'stepappTests' do
     inherit! :complete
     # Pods for testing

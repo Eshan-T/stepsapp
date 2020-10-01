@@ -16,6 +16,7 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* stepappTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* stepappTests.m */; };
 		351F8F907A95C6465683B67C /* libPods-stepapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C4EA40D5446923033141FDB /* libPods-stepapp.a */; };
+		35B510B925267EEE008CA4D2 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B510B825267EEE008CA4D2 /* HealthKit.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		899176A1FABDE3AF7B673806 /* libPods-stepapp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6656177AD5E02231639DF202 /* libPods-stepapp-tvOS.a */; };
 		DD71E30CA6DB65579B7D6733 /* libPods-stepapp-stepappTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D01BCC57B1C3CE22082B9CA /* libPods-stepapp-stepappTests.a */; };
@@ -55,6 +56,8 @@
 		2D02E4901E0B4A5D006451C7 /* stepapp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "stepapp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F8CA62E17893E66ECF96D2D /* Pods-stepapp-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stepapp-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-stepapp-tvOSTests/Pods-stepapp-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		343EDD67845F20549692D2DF /* Pods-stepapp-stepappTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stepapp-stepappTests.release.xcconfig"; path = "Target Support Files/Pods-stepapp-stepappTests/Pods-stepapp-stepappTests.release.xcconfig"; sourceTree = "<group>"; };
+		35B510B725267EEE008CA4D2 /* stepapp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = stepapp.entitlements; path = stepapp/stepapp.entitlements; sourceTree = "<group>"; };
+		35B510B825267EEE008CA4D2 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		375821BF4B74AE68DDF5E290 /* Pods-stepapp-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stepapp-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-stepapp-tvOSTests/Pods-stepapp-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		6656177AD5E02231639DF202 /* libPods-stepapp-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-stepapp-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D01BCC57B1C3CE22082B9CA /* libPods-stepapp-stepappTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-stepapp-stepappTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,6 +86,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				351F8F907A95C6465683B67C /* libPods-stepapp.a in Frameworks */,
+				35B510B925267EEE008CA4D2 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +129,7 @@
 		13B07FAE1A68108700A75B9A /* stepapp */ = {
 			isa = PBXGroup;
 			children = (
+				35B510B725267EEE008CA4D2 /* stepapp.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -139,6 +144,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				35B510B825267EEE008CA4D2 /* HealthKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				7C4EA40D5446923033141FDB /* libPods-stepapp.a */,
@@ -194,7 +200,6 @@
 				2F8CA62E17893E66ECF96D2D /* Pods-stepapp-tvOSTests.debug.xcconfig */,
 				375821BF4B74AE68DDF5E290 /* Pods-stepapp-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -655,6 +660,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = stepapp/stepapp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = stepapp/Info.plist;
@@ -678,6 +684,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = stepapp/stepapp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = stepapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
