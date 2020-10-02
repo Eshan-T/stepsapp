@@ -10,6 +10,8 @@ target 'stepapp' do
 
   pod 'RCTAppleHealthKit', :path => '../node_modules/rn-apple-healthkit'
 
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
   target 'stepappTests' do
     inherit! :complete
     # Pods for testing

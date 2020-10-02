@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import { createStackNavigator } from 'react-navigation-stack';
 
 import {
   SafeAreaView,
@@ -7,22 +8,46 @@ import {
   View,
   Text,
   StatusBar,
+   Button
 } from 'react-native';
 
 import AppleHealthKit from 'rn-apple-healthkit';
 
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
-// get permissions
+import TodayStepsCircular from './Components/TodayStepsCircular'
+
+import {postCall} from './actions/SyncButton'
+
+import AppNavigator from './navigation/AppNavigator'
+
+
+
 let options = {
   permissions: {
       read: ["StepCount"],
       write: ["StepCount"]
   }
-};
+}
 
 AppleHealthKit.initHealthKit(options, (err, results) => {
   if (err) {
       console.log("error initializing Healthkit: ", err);
+
+      const createTwoButtonAlert = () =>
+      Alert.alert(
+        "Alert",
+        "Health permissions are required for this app to function. Please go to the health center and manually enable them.",
+        [
+        //   {
+        //     text: "Cancel",
+        //     onPress: () => console.log("Cancel Pressed"),
+        //     style: "cancel"
+        //   },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ],
+        { cancelable: false }
+      );
       return;
   }
   console.log("all good: ");
@@ -30,47 +55,23 @@ AppleHealthKit.initHealthKit(options, (err, results) => {
 
 });
 
-let stepsWrite = {
-  value: 100,
-  startDate: (new Date(2020,10,2,6,0,0)).toISOString(),
-  endDate: (new Date(2020,10,2,6,30,0)).toISOString()
-};
-
-AppleHealthKit.saveSteps(stepsWrite, (err, res) => {
-  if (err) {
-    console.log("error write");
-
-    return;
-  }
-  console.log("all good: step written");
-
-});
-
-let d = new Date(2020,10,2);
-let options2 = {
-    date: d.toISOString()
-};
-
-AppleHealthKit.getStepCount(options2, (err, results) => {
-  if (err) {
-    console.log("error read");
-
-      return;
-  }
-
-  console.log("all good: steps read");
-
-  console.log(results)
-});
-
-
 const App = () => {
+ 
   return (
-   <View>
-     <Text>
-       hello
-     </Text>
-   </View>
-  )};
+   
+<AppNavigator/>
+  )
+};
+
+  
+
+  const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'transparent'
+    },
+  })
 
 export default App;
