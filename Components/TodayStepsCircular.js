@@ -67,9 +67,7 @@ const TodayStepsCircular = (props) => {
 
     const styles = StyleSheet.create({
         container: {
-            flex: 1,
             alignItems: 'center',
-            justifyContent: "center",
             backgroundColor: 'transparent'
         },
         weekFill: {
@@ -87,8 +85,9 @@ const TodayStepsCircular = (props) => {
             // top: 10,
             // left: 10,
             alignItems: 'center',
-            justifyContent: 'center',
+
             width: 250,
+
             height: 250
         },
         day: {

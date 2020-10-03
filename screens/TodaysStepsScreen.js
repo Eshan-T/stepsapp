@@ -36,7 +36,7 @@ const TodaysStepsScreen = (props) => {
 
   
     
-    let d = new Date(2020,10,2);
+    let d = new Date();
     let options2 = {
         date: d.toISOString()
     };
@@ -52,17 +52,23 @@ const TodaysStepsScreen = (props) => {
         console.log("all good: steps read");
         console.log(results)
         setSteps(results.value)
-        console.log(results.value)
       });
     }
   
     const writedata = async() => {
   
+        var start = new Date();
+    start.setHours(0,0,0,0);
+
+        var end = new Date();
+        end.setHours(23,59,59,999);
+
       let stepsWrite = {
         value: 100,
-        startDate: (new Date(2020,10,2,6,0,0)).toISOString(),
-        endDate: (new Date(2020,10,2,6,30,0)).toISOString()
+        startDate: start.toISOString(),
+        endDate: end.toISOString()
       }; 
+
       
       AppleHealthKit.saveSteps(stepsWrite, (err, res) => {
         if (err) {
@@ -72,7 +78,6 @@ const TodaysStepsScreen = (props) => {
         }
   
         readData()
-        console.log("all good: step written");
       
       });
   
@@ -99,18 +104,11 @@ const TodaysStepsScreen = (props) => {
         .then((response) => response.json())
         .then((responseJson) => {
 
-          console.log(responseJson.message)
           setvisible(false)
 
-          if (responseJson.message === "failure")
-          {
-            createTwoButtonAlert()
+          
+            createTwoButtonAlert(responseJson.message )
 
-          }
-          else{
-
-            //
-          }
     
         })
         .catch((error) => {
@@ -126,21 +124,26 @@ const TodaysStepsScreen = (props) => {
       fetchUser();
     }, [steps])
 
-        const createTwoButtonAlert = () =>
+        const createTwoButtonAlert = (status) =>{
+            var text = ""
+            if (status === "failure")
+            {
+                text = "Sync Failed, please try again later"
+            }
+            else{
+                text = "Success!"
+            }
           Alert.alert(
-            "Alert Title",
-            "My Alert Msg",
+            "Alert ",
+                text,
             [
-            //   {
-            //     text: "Cancel",
-            //     onPress: () => console.log("Cancel Pressed"),
-            //     style: "cancel"
-            //   },
-              { text: "OK", onPress: () => console.log("OK Pressed") }
+         
+             { text: "OK", onPress: () => console.log("OK Pressed") }
             ],
             { cancelable: false }
           );
-    
+        }
+            
     return (
       <View style={styles.container}>
         
@@ -152,8 +155,8 @@ const TodaysStepsScreen = (props) => {
        </TouchableWithoutFeedback>
 
   
-       <Button title="Post to server" onPress={postCall} />
-       <Button title="Write dummy data" onPress={writedata}/>
+       <Button title="Post to server" onPress={postCall}  />
+       <Button title="Write dummy data" onPress={writedata} />
   
        <View style={{flex : 1, justifyContent: 'center', alignItems: 'center', position: 'absolute'}}>
             { visible && <ActivityIndicator size="large" color="red" /> }
@@ -167,9 +170,10 @@ const TodaysStepsScreen = (props) => {
   
     const styles = StyleSheet.create({
       container: {
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
+        flex:1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
           backgroundColor: 'transparent'
       },
     })
