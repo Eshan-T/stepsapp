@@ -7,8 +7,8 @@ import { createAppContainer } from 'react-navigation';
 
 
 const AppNavigator = createStackNavigator({
-    todaysteps: TodaysStepsScreen,
-    hoursteps: HourlySteps
+    Today: TodaysStepsScreen,
+    Details: HourlySteps
 
   })
 

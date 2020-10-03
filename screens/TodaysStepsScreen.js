@@ -31,12 +31,14 @@ import { TouchableHighlight, TouchableWithoutFeedback } from 'react-native-gestu
 const TodaysStepsScreen = (props) => {
  
 
-    const [steps, setSteps] = useState('check');
+    const [steps, setSteps] = useState('0');
     const [visible, setvisible] = useState(false);
 
   
     
     let d = new Date();
+    d.setHours(0,0,0,0);
+
     let options2 = {
         date: d.toISOString()
     };
@@ -57,11 +59,15 @@ const TodaysStepsScreen = (props) => {
   
     const writedata = async() => {
   
+       
+         let num =  Math.random() * (22 - 1) + 1; 
+          
+          
         var start = new Date();
-    start.setHours(0,0,0,0);
+    start.setHours(num,0,0,0);
 
         var end = new Date();
-        end.setHours(23,59,59,999);
+        end.setHours(num+1,30,0,0);
 
       let stepsWrite = {
         value: 100,
@@ -77,6 +83,7 @@ const TodaysStepsScreen = (props) => {
           return;
         }
   
+        console.log(stepsWrite)
         readData()
       
       });
@@ -119,10 +126,15 @@ const TodaysStepsScreen = (props) => {
     }
 
 
-    readData(() => {
+    // readData(() => {
   
-      fetchUser();
-    }, [steps])
+    //   fetchUser();
+    // }, [steps])
+
+    useEffect(() => {
+  
+        readData();
+      }, [steps])
 
         const createTwoButtonAlert = (status) =>{
             var text = ""
@@ -148,9 +160,9 @@ const TodaysStepsScreen = (props) => {
       <View style={styles.container}>
         
 
-       <TouchableWithoutFeedback onPress = {() => { props.navigation.navigate({routeName:'hoursteps'})}}>
+       <TouchableWithoutFeedback onPress = {() => { props.navigation.navigate({routeName:'Details'})}}>
 
-       <TodayStepsCircular steps={steps} />
+       <TodayStepsCircular steps={parseInt(steps)} />
 
        </TouchableWithoutFeedback>
 

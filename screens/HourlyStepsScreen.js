@@ -15,19 +15,18 @@ import {
 
     const HourlyStepsScreen = () =>
   {
+    var d = new Date()
+    const [date, setDate] = useState(d);
+    const [items, setItems] = useState([]);
+    
+    
 
-    const [date, setDate] = useState('check');
-    var stepsArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-
-    let d = new Date(2020,10,2);
     let options2 = {
-        date: d.toISOString()
+        date: date.toISOString()
     };
     
-    const readData = async() => {
-
-      stepsArray
-      AppleHealthKit.getStepCount(options2, (err, results) => {
+    const readData = () => {
+      AppleHealthKit.getStepCountHourly(options2, (err, results) => {
         if (err) {
           console.log("error read");
       
@@ -35,50 +34,87 @@ import {
         }
       
         console.log("all good: steps read");
+
         console.log(results)
-        //setSteps(results.value)
-        console.log(results.value)
+
+        var arr = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        for (let i = 0; i < results.value.length; i++) {
+          console.log("arf")
+          arr[i] = parseInt(results.value[i][0])    
+        }
+        setItems(arr)     
+           console.log("final check")
+
+        console.log(items)
       });
     }
-
-    readData(() => {
   
-      fetchUser();
+    
+
+    useEffect(() => {
+  
+      readData();
     }, [date])
+
+
+    const reduceDate = () =>
+    {
+      const copy = new Date(Number(date))
+      copy.setDate(date.getDate() - 1)
+
+      let prevDate = copy
+      console.log(copy)
+      setDate(prevDate)
+    }
+
+    const addDate = () =>
+    {
+      const copy2 = new Date(Number(date))
+      copy2.setDate(date.getDate() + 1)
+
+      let prevDate = copy2
+      console.log(copy2)
+      setDate(prevDate)
+    
+
+    }
+
+  
 
 
       return (
        <View >
 
          <View style={styles.container}>
-           <Button title="back"/>
-           <Text>today</Text>
-           <Button title="next"/>
+           <Button title="<" onPress={reduceDate}/>
+           <Text>Today</Text>
+           <Button title=">" onPress={addDate}/>
          </View>
   <BarChart
     data={{
       labels: ["00", "6AM", "12PM", "6PM", "12AM"],
       datasets: [
         {
-          data: stepsArray
+          data: items
         }
       ]
     }}
     width={400} // from react-native
     height={220}
-    yAxisLabel="$"
-    yAxisSuffix="k"
+    yAxisLabel=""
+    yAxisSuffix=""
     yAxisInterval={1} // optional, defaults to 1
     chartConfig={{
       backgroundColor: "#e26a00",
       backgroundGradientFrom: "#fb8c00",
       backgroundGradientTo: "#ffa726",
-      decimalPlaces: 2, // optional, defaults to 2dp
+      decimalPlaces: 0, // optional, defaults to 2dp
       color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
       labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
       style: {
         borderRadius: 16
       },
+      barPercentage: 0.4,
       propsForDots: {
         r: "6",
         strokeWidth: "1",
