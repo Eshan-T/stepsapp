@@ -7,42 +7,65 @@ import {
   } from 'react-native';
 
   import AppleHealthKit from 'rn-apple-healthkit';
+  import Icon from 'react-native-vector-icons/Ionicons';
+  import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
   import {
     BarChart,
   } from "react-native-chart-kit";
+import { color } from 'react-native-reanimated';
 
     const HourlyStepsScreen = () =>
   {
     var d = new Date()
+    d.setHours(0,0,0,0);
+   
+
     const [date, setDate] = useState(d);
     const [items, setItems] = useState([]);
-    
-    
+    const [steps,setsteps] =  useState(0);
+
+    var todaysSteps = 0
+
 
     let options2 = {
         date: date.toISOString()
     };
     
     const readData = () => {
+
+     
+
       AppleHealthKit.getStepCountHourly(options2, (err, results) => {
         if (err) {
           console.log("error read");
       
             return;
         }
+
+    
       
         console.log("all good: steps read");
 
         console.log(results)
 
         var arr = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-        for (let i = 0; i < results.value.length; i++) {
-          console.log("arf")
+        var loopcounter = 0
+        if (results.value.length > 23)
+        {
+          loopcounter = 24
+        }
+        else{
+          loopcounter = results.value.length
+
+        }
+        for (let i = 0; i < loopcounter; i++) {
+          todaysSteps = todaysSteps + parseInt(results.value[i][0]) 
           arr[i] = parseInt(results.value[i][0])    
         }
         setItems(arr)     
+        setsteps(todaysSteps)
            console.log("final check")
 
         console.log(items)
@@ -53,6 +76,7 @@ import {
 
     useEffect(() => {
   
+
       readData();
     }, [date])
 
@@ -74,6 +98,7 @@ import {
 
       let prevDate = copy2
       console.log(copy2)
+
       setDate(prevDate)
     
 
@@ -86,9 +111,24 @@ import {
        <View >
 
          <View style={styles.container}>
-           <Button title="<" onPress={reduceDate}/>
-           <Text>Today</Text>
-           <Button title=">" onPress={addDate}/>
+           <Icon.Button
+  name="caret-back"
+  backgroundColor="#F3F3F3"
+  color="#000000"
+  onPress={reduceDate}>
+</Icon.Button>
+           <Text>{date.toLocaleDateString()}</Text>
+
+
+           <Icon.Button
+  name="caret-forward"
+  backgroundColor="#F3F3F3"
+  color="#000000"
+
+  onPress={addDate}>
+    </Icon.Button>
+
+
          </View>
   <BarChart
     data={{
@@ -102,19 +142,25 @@ import {
     width={400} // from react-native
     height={220}
     yAxisLabel=""
+    
     yAxisSuffix=""
-    yAxisInterval={1} // optional, defaults to 1
+  
+    yAxisInterval={10} // optional, defaults to 1
     chartConfig={{
-      backgroundColor: "#e26a00",
-      backgroundGradientFrom: "#fb8c00",
-      backgroundGradientTo: "#ffa726",
+      //backgroundColor: "#00000",
+      backgroundGradientFrom: "#FFFFFF",
+       backgroundGradientTo: "#FFFFFF",
+       fillShadowGradientOpacity:1,
+      
       decimalPlaces: 0, // optional, defaults to 2dp
-      color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-      labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+      color: (opacity = 1) => `rgba(80, 52, 211, ${opacity})`,
+      labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
       style: {
         borderRadius: 16
       },
-      barPercentage: 0.4,
+
+
+      barPercentage: 0.2,
       propsForDots: {
         r: "6",
         strokeWidth: "1",
@@ -127,6 +173,26 @@ import {
       borderRadius: 0
     }}
   />
+
+  <View style={styles.bottomview}>
+
+    <View style={styles.insidebottomview}>
+
+    <Icon2 name="shoe-print" type="ionicon" color="#5034D3" size={40} style={styles.textinsidebottomview}/>
+
+    <Text style={styles.textinsidebottomview}>Total Steps</Text>
+    <Text style={styles.textinsidebottomview}>{steps}</Text>
+
+    </View>
+    <View style={styles.insidebottomview}>
+    <Icon2 name="bullseye-arrow" type="ionicon" color="#5034D3" size={40} style={styles.textinsidebottomview}/>
+    <Text style={styles.textinsidebottomview}>Your daily goal</Text>
+    <Text style={styles.textinsidebottomview}>10000</Text>
+
+
+      </View>
+    
+  </View>
 
   
 </View>
@@ -172,6 +238,22 @@ import {
     },
     goal: {
         color: 'blue'
+    },
+    bottomview:{
+      flexDirection: 'row',
+    },
+    insidebottomview:{
+      flex: 1,
+      justifyContent:"center",
+      alignContent:"center",
+      height:100
+    },
+    textinsidebottomview:{
+      flexDirection:'column',
+      textAlign:'center',
+      paddingTop:7,
+
+
     }
 });
 

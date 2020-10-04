@@ -13,6 +13,12 @@ import {
 
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon2 from 'react-native-vector-icons/FontAwesome5';
+
+import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+
 
 
 import AppleHealthKit from 'rn-apple-healthkit';
@@ -37,7 +43,7 @@ const TodaysStepsScreen = (props) => {
   
     
     let d = new Date();
-    d.setHours(0,0,0,0);
+    //d.setHours(1,0,0,0);
 
     let options2 = {
         date: d.toISOString()
@@ -51,8 +57,8 @@ const TodaysStepsScreen = (props) => {
             return;
         }
       
-        console.log("all good: steps read");
-        console.log(results)
+       // console.log("all good: steps read");
+       // console.log(results)
         setSteps(results.value)
       });
     }
@@ -67,7 +73,7 @@ const TodaysStepsScreen = (props) => {
     start.setHours(num,0,0,0);
 
         var end = new Date();
-        end.setHours(num+1,30,0,0);
+        end.setHours(num,30,0,0);
 
       let stepsWrite = {
         value: 100,
@@ -157,21 +163,26 @@ const TodaysStepsScreen = (props) => {
         }
             
     return (
-      <View style={styles.container}>
+      <View style={styles.container} >
         
-
        <TouchableWithoutFeedback onPress = {() => { props.navigation.navigate({routeName:'Details'})}}>
+
 
        <TodayStepsCircular steps={parseInt(steps)} />
 
        </TouchableWithoutFeedback>
 
   
-       <Button title="Post to server" onPress={postCall}  />
-       <Button title="Write dummy data" onPress={writedata} />
+       <Icon.Button name="server" onPress={postCall} backgroundColor="#5034D3"> 
+            Post to server
+         </Icon.Button>
+         <Text></Text>
+         <Icon2.Button name="shoe-prints" onPress={writedata} solid backgroundColor="#5034D3">
+         Write dummy data
+         </Icon2.Button>
   
        <View style={{flex : 1, justifyContent: 'center', alignItems: 'center', position: 'absolute'}}>
-            { visible && <ActivityIndicator size="large" color="red" /> }
+            { visible && <ActivityIndicator size="large" color="#5034D3" /> }
             </View>
        </View>
 
@@ -188,6 +199,16 @@ const TodaysStepsScreen = (props) => {
         alignItems: 'center',
           backgroundColor: 'transparent'
       },
+      writedata: {
+        position: 'absolute',
+        justifyContent: 'center',
+        alignItems: 'center',
+            top: -20,
+            left:30
+      },
+      twobutton:{
+        color:"#5034D3"
+      }
     })
   
   export default TodaysStepsScreen;
