@@ -24,7 +24,7 @@
     "react-native-svg": "^12.1.0",
     "react-navigation": "^4.4.2",
     "react-navigation-stack": "^2.8.4",
-    "rn-apple-healthkit": "^0.8.0"
+    "rn-apple-healthkit": "git+https://github.com/Eshan-T/rn-apple-healthkit.git"
   },
   "devDependencies": {
     "@babel/core": "7.11.6",
