@@ -1,77 +1,56 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 
 import {
-  SafeAreaView,
+
   StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-   Button
 } from 'react-native';
 
 import AppleHealthKit from 'rn-apple-healthkit';
-
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
-
-import TodayStepsCircular from './Components/TodayStepsCircular'
-
-import {postCall} from './actions/SyncButton'
 
 import AppNavigator from './navigation/AppNavigator'
 
 
 
-let options = {
+let permissionParameters = {
   permissions: {
-      read: ["StepCount"],
-      write: ["StepCount"]
+    read: ["StepCount"],
+    write: ["StepCount"]
   }
 }
 
-AppleHealthKit.initHealthKit(options, (err, results) => {
+AppleHealthKit.initHealthKit(permissionParameters, (err, results) => {
   if (err) {
-      console.log("error initializing Healthkit: ", err);
+    console.log("error initializing Healthkit: ", err);
 
-      const createTwoButtonAlert = () =>
+    const createTwoButtonAlert = () =>
       Alert.alert(
         "Alert",
         "Health permissions are required for this app to function. Please go to the health center and manually enable them.",
         [
-        //   {
-        //     text: "Cancel",
-        //     onPress: () => console.log("Cancel Pressed"),
-        //     style: "cancel"
-        //   },
           { text: "OK", onPress: () => console.log("OK Pressed") }
         ],
         { cancelable: false }
       );
-      return;
+    return;
   }
-  console.log("all good: ");
-
-
 });
 
 const App = () => {
- 
   return (
-   
-<AppNavigator/>
+    <AppNavigator />
   )
 };
 
-  
 
-  const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'transparent'
-    },
-  })
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent'
+  },
+})
 
 export default App;
